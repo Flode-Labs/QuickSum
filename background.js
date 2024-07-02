@@ -9,36 +9,7 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
           chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
             console.log('Tabs:', tabs);  
             if (tabs && tabs.length > 0) {
-                  chrome.tabs.sendMessage(tabs[0].id, { action: "summarizeMessages", messages: messages }, (response) => {
-                      if (response && response.success) {
-                          // Almacenar el resumen y enviar un mensaje para inyectar el div
-                          chrome.storage.local.set({ summary: response.summary });
-                          chrome.tabs.sendMessage(tabs[0].id, { action: "injectDiv", messages: [response.summary] });
-
-                          sendResponse({ success: true, summary: response.summary });
-                      } else {
-                          console.log(response)
-                          console.error('Error with AI summarization:', response.error);
-
-                          const errorMessage = {
-                              title: "Gemini Nano not ready or not supported.",
-                              steps: `**Error:** ${response.error.message}\n\nTo enable Chrome's built-in on-device model, follow these steps:\n\n
-                              1. Download the latest version of [**Chrome Dev**](https://google.com/chrome/dev/).\n\n
-                              2. Open: [chrome://flags/#optimization-guide-on-device-model](chrome://flags/#optimization-guide-on-device-model) and select **Enabled BypassPerfRequirement**.\n\n
-                              3. Open: [chrome://flags/#prompt-api-for-gemini-nano](chrome://flags/#prompt-api-for-gemini-nano) and select **Enabled**.\n\n
-                              4. Wait for the model to download. You can check the download status at [chrome://components/](chrome://components/) under **Optimization Guide On Device Model**.\n\n
-                              Once these steps are completed, you can use the on-device model in Chrome Dev.`
-                          };
-
-                          // Set the error message in local storage
-                          chrome.storage.local.set({ errorMessage: errorMessage });
-
-                          // Set the popup to show the instructions
-                          chrome.action.setPopup({ popup: 'popup.html' });
-
-                          sendResponse({ success: false, error: errorMessage });
-                      }
-                  });
+                  chrome.tabs.sendMessage(tabs[0].id, { action: "summarizeMessages", messages: messages });
               } else {
                   console.error('No active tabs found');
                   sendResponse({ success: false, error: 'No active tabs found' });
@@ -69,7 +40,6 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
       }
   }
 });
-
 
 // chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 //     console.log('Message received in background', request);

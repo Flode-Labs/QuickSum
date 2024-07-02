@@ -124,8 +124,8 @@ function addChatClickListener() {
                 newChatInfo = Array.from(newChatInfo).filter(span => span.querySelector('svg') === null)[0];
                 console.log('Chat info:', newChatInfo);
                 const isUnread = newChatInfo != null;
-                const isGroupChat = newChat.querySelector('.x1n2onr6 .x14yjl9h img') !== null;
-
+                // const isGroupChat = newChat.querySelector('.x1n2onr6 .x14yjl9h img') !== null;
+                const isGroupChat = true; //TODO: fix this
                 console.log('Chat clicked');
                 console.log('isUnread:', isUnread);
                 console.log('isGroupChat:', isGroupChat);
@@ -224,25 +224,40 @@ async function summarizeMessages(messages) {
   }
   
   const prompt = `
-  Summarize the following chat messages in one paragraph so i dont have to read all messages to know what happened.
-  Consider:
+  Summarize the following chat messages in one coherent short paragraph. Your summary should help me understand the conversation without having to read all the messages. Please include:
+  
   - The main topics discussed
   - The opinions expressed
   - The key points made
-  - Make the summary respecting the order of the messages and the original language
-  The message format is as follows:
-    - {time} - {sender}: {message}
-    - if its only {time} - {message} then the sender is the same as the previous message
-
-  messages unreaden:
+  - Ensure the summary respects the order of the messages and preserves the original language. So if the messages are in English, the summary should also be in English. If the messages are in another language, the summary should be in that language.
+  
+  The format of the messages is:
+  - {time} - {sender}: {message}
+  
+  Unread messages:
   ${messages}
   `;
-  const aiSummary = await aiSession.prompt(prompt);
 
+  injectDiv('Analyzing...'); // Inject an empty div first to show loading state
+  
+  const stream = aiSession.promptStreaming(prompt);
+  const summaryParts = [];
+  const summaryDiv = document.getElementById('ai-summary');
+  const content = summaryDiv.querySelector('div');
+
+  for await (const chunk of stream) {
+      summaryParts.push(chunk);
+      if (content) {
+          content.textContent = chunk
+      }
+  }
+
+  const aiSummary = summaryParts.join('');
   console.log('AI Summary:', aiSummary);
 
   return aiSummary;
 }
+
 // Function to inject the div with the summary
 function injectDiv(messages) {
     const mainDiv = document.getElementById('main');
@@ -250,63 +265,71 @@ function injectDiv(messages) {
         const targetDiv = mainDiv.querySelector('._amm9');
         if (targetDiv) {
             // Create the summary container div
-            const summaryDiv = document.createElement('div');
-            summaryDiv.style.position = 'absolute';
-            summaryDiv.style.bottom = '10px';
-            summaryDiv.style.right = '10px';
-            summaryDiv.style.width = '80%';
-            summaryDiv.style.maxWidth = '400px';
-            summaryDiv.style.background = 'linear-gradient(145deg, #1b1b1b, #0e0e0e)';
-            summaryDiv.style.border = '1px solid #333';
-            summaryDiv.style.borderRadius = '10px';
-            summaryDiv.style.padding = '20px';
-            summaryDiv.style.color = 'white';
-            summaryDiv.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
-            summaryDiv.style.zIndex = '1000';
-            summaryDiv.style.fontFamily = 'Arial, sans-serif';
-            summaryDiv.style.opacity = '0';  // Initially hidden for fade-in effect
-            summaryDiv.style.transition = 'opacity 0.5s';  // Animation effect
+            let summaryDiv = document.getElementById('ai-summary');
+            if (!summaryDiv) {
+                summaryDiv = document.createElement('div');
+                summaryDiv.id = 'ai-summary';
+                summaryDiv.style.position = 'absolute';
+                summaryDiv.style.bottom = '10px';
+                summaryDiv.style.right = '10px';
+                summaryDiv.style.width = '80%';
+                summaryDiv.style.maxWidth = '400px';
+                summaryDiv.style.background = 'linear-gradient(145deg, #1b1b1b, #0e0e0e)';
+                summaryDiv.style.border = '1px solid #333';
+                summaryDiv.style.borderRadius = '10px';
+                summaryDiv.style.padding = '20px';
+                summaryDiv.style.color = 'white';
+                summaryDiv.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
+                summaryDiv.style.zIndex = '1000';
+                summaryDiv.style.fontFamily = 'Arial, sans-serif';
+                summaryDiv.style.opacity = '0';  // Initially hidden for fade-in effect
+                summaryDiv.style.transition = 'opacity 0.5s';  // Animation effect
 
-            // Create the close button
-            const closeButton = document.createElement('span');
-            closeButton.innerHTML = '&times;';
-            closeButton.style.position = 'absolute';
-            closeButton.style.top = '10px';
-            closeButton.style.right = '15px';
-            closeButton.style.cursor = 'pointer';
-            closeButton.style.fontSize = '20px';
-            closeButton.style.color = 'white';
-            closeButton.onclick = () => {
-                summaryDiv.style.opacity = '0';
-                setTimeout(() => summaryDiv.remove(), 500);  // Remove after fade-out
-            };
+                // Create the close button
+                const closeButton = document.createElement('span');
+                closeButton.innerHTML = '&times;';
+                closeButton.style.position = 'absolute';
+                closeButton.style.top = '10px';
+                closeButton.style.right = '15px';
+                closeButton.style.cursor = 'pointer';
+                closeButton.style.fontSize = '20px';
+                closeButton.style.color = 'white';
+                closeButton.onclick = () => {
+                    summaryDiv.style.opacity = '0';
+                    setTimeout(() => summaryDiv.remove(), 500);  // Remove after fade-out
+                };
 
-            // Create the title
-            const title = document.createElement('h2');
-            title.textContent = 'Summary';
-            title.style.marginTop = '0';
-            title.style.marginBottom = '10px';
-            title.style.fontSize = '18px';
-            title.style.borderBottom = '1px solid #444';
-            title.style.paddingBottom = '5px';
+                // Create the title
+                const title = document.createElement('h2');
+                title.textContent = 'Summary';
+                title.style.marginTop = '0';
+                title.style.marginBottom = '10px';
+                title.style.fontSize = '18px';
+                title.style.borderBottom = '1px solid #444';
+                title.style.paddingBottom = '5px';
 
-            // Create the message content
-            const content = document.createElement('div');
-            content.style.marginTop = '10px';
-            content.style.overflowY = 'auto';
-            content.style.maxHeight = '150px';
-            content.textContent = messages;
+                // Create the message content
+                const content = document.createElement('div');
+                content.style.marginTop = '10px';
+                content.style.overflowY = 'auto';
+                content.style.maxHeight = '150px';
+                content.textContent = messages;
 
-            // Append title, content, and close button to the summaryDiv
-            summaryDiv.appendChild(closeButton);
-            summaryDiv.appendChild(title);
-            summaryDiv.appendChild(content);
+                // Append title, content, and close button to the summaryDiv
+                summaryDiv.appendChild(closeButton);
+                summaryDiv.appendChild(title);
+                summaryDiv.appendChild(content);
 
-            // Append the summaryDiv to the targetDiv
-            targetDiv.appendChild(summaryDiv);
+                // Append the summaryDiv to the targetDiv
+                targetDiv.appendChild(summaryDiv);
 
-            // Trigger the fade-in effect
-            setTimeout(() => summaryDiv.style.opacity = '1', 0);
+                // Trigger the fade-in effect
+                setTimeout(() => summaryDiv.style.opacity = '1', 0);
+            } else {
+                // Update the content dynamically if div already exists
+                const content = summaryDiv.querySelector('div');
+                content.textContent = messages;
+            }
         } else {
             console.error('Target div with class _amm9 not found');
         }
