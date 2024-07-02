@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gemini Nano Setup</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 400px;
+      color: #333;
+    }
+    h1 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+    a {
+      color: #1a73e8;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1 id="error-title">Error</h1>
+  <p id="error-steps">Loading instructions...</p>
+
+  <script>
+    // Load the error message from local storage
+    chrome.storage.local.get('errorMessage', (data) => {
+      if (data.errorMessage) {
+        document.getElementById('error-title').textContent = data.errorMessage.title;
+        document.getElementById('error-steps').innerHTML = data.errorMessage.steps.replace(/\n/g, '<br>');
+      } else {
+        document.getElementById('error-steps').textContent = 'No error message found.';
+      }
+    });
+  </script>
+</body>
+</html>
