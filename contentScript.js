@@ -38,13 +38,16 @@ function formatMessages(messages) {
             lastSender = sender;
             lastTime = time;
         } else {
+            console.log('Message parts:', parts);
+            console.log('Sender:', sender);
+            if (parts.length === 3) {
             const text = parts.slice(1, parts.length - 1).join('\n');
-            if (sender === lastSender && time === lastTime) {
-                formattedMessages += `${text}\n`;
-            } else {
-                formattedMessages += `${time} - ${sender}: ${text}\n\n`;
-                lastSender = sender;
-                lastTime = time;
+            formattedMessages += `${time} - ${sender}: ${text}\n\n`;
+            lastSender = sender;
+            lastTime = time;
+            } else if (parts.length === 2) {
+            const text = parts[0];
+            formattedMessages += `${lastTime} - ${lastSender}: ${text}\n\n`;
             }
         }
     });
@@ -127,7 +130,7 @@ function addChatClickListener() {
                 console.log('isUnread:', isUnread);
                 console.log('isGroupChat:', isGroupChat);
 
-                if (isUnread && isGroupChat && newChatInfo.innerText.match(/\d+/)) {
+                if (isUnread && isGroupChat && newChatInfo.innerText.match(/\d+/) && newChatInfo.innerText > "20" ) {
                     console.log('Chat list changed, detected new chat');
                     handleNewChat();
                 }

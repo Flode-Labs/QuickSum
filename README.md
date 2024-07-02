@@ -11,3 +11,11 @@
 4. **Download Model**: Go to `chrome://components/`, find "Optimization Guide On Device Model", ensure it’s fully downloaded. If the version is "0.0.0.0", click "Check for update".
 5. **Troubleshoot**: If the "Optimization Guide On Device Model" is not displayed, disable the settings in steps 2 and 3, ensure you have at least 22gb free on your disk and restart your browser and re-enable it.
 6. **Verify Setup**: Open a webpage, press F12, and check `window.ai` in the console.
+
+# TODO
+* Improve the README 
+* Improve prompt
+* Check correctly if it's a group when clicked
+* Parse the inner html of the unreaden messages to integers
+* Make a UI for the popup
+* Add multiple languages?
