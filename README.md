@@ -1,6 +1,6 @@
-# Quicksum
+# QuickSum
 A Chrome extension designed to demonstrate the capabilities of the new AI model incorporated in the latest Chrome version by summarizing your unread WhatsApp messages.
-
+![Logo](./Quicksum.webp)
 
 # Prerequisites
 
