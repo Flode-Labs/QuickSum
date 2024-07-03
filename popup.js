@@ -1,6 +1,17 @@
-document.addEventListener('DOMContentLoaded', () => {
-    chrome.storage.local.get(['summary'], (result) => {
-      document.getElementById('summary').innerText = result.summary || 'No summary available';
-    });
-  });
-  
+document.getElementById('extension_name').textContent = chrome.i18n.getMessage('extension_name');
+document.getElementById('guide_title').textContent = chrome.i18n.getMessage('guide_title');
+document.getElementById('install_chrome_canary').textContent = chrome.i18n.getMessage('install_chrome_canary');
+document.getElementById('install_chrome_canary_detail').textContent = chrome.i18n.getMessage('install_chrome_canary_detail');
+document.getElementById('enable_prompt_api').textContent = chrome.i18n.getMessage('enable_prompt_api');
+document.getElementById('enable_prompt_api_detail').textContent = chrome.i18n.getMessage('enable_prompt_api_detail');
+document.getElementById('enable_prompt_api_flag').textContent = chrome.i18n.getMessage('enable_prompt_api_flag');
+document.getElementById('enable_optimization_guide').textContent = chrome.i18n.getMessage('enable_optimization_guide');
+document.getElementById('enable_optimization_guide_detail').textContent = chrome.i18n.getMessage('enable_optimization_guide_detail');
+document.getElementById('enable_optimization_guide_flag').textContent = chrome.i18n.getMessage('enable_optimization_guide_flag');
+document.getElementById('download_model').textContent = chrome.i18n.getMessage('download_model');
+document.getElementById('download_model_detail').textContent = chrome.i18n.getMessage('download_model_detail');
+document.getElementById('download_model_instruction').textContent = chrome.i18n.getMessage('download_model_instruction');
+document.getElementById('troubleshoot').textContent = chrome.i18n.getMessage('troubleshoot');
+document.getElementById('troubleshoot_detail').textContent = chrome.i18n.getMessage('troubleshoot_detail');
+document.getElementById('download_chrome_canary').textContent = chrome.i18n.getMessage('download_chrome_canary');
+document.getElementById('check_for_update').textContent = chrome.i18n.getMessage('check_for_update');

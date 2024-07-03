@@ -31,9 +31,9 @@ function formatMessages(messages) {
             const quoteContent = parts[2];
             const text = parts[3];
             if (/^\d{1,2}:\d{2}$/.test(quoteContent)) {
-                formattedMessages += `${time} - ${sender}: (responding to the voice note of ${quoteSender}) ${text}\n\n`;
+                formattedMessages += `${sender}: (responding to the voice note of ${quoteSender}) ${text}\n\n`;
             } else {
-                formattedMessages += `${time} - ${sender}: (responding to the message of ${quoteSender}: "${quoteContent}") ${text}\n\n`;
+                formattedMessages += `${sender}: (responding to the message of ${quoteSender}: "${quoteContent}") ${text}\n\n`;
             }
             lastSender = sender;
             lastTime = time;
@@ -42,12 +42,12 @@ function formatMessages(messages) {
             console.log('Sender:', sender);
             if (parts.length === 3) {
             const text = parts.slice(1, parts.length - 1).join('\n');
-            formattedMessages += `${time} - ${sender}: ${text}\n\n`;
+            formattedMessages += `${sender}: ${text}\n\n`;
             lastSender = sender;
             lastTime = time;
             } else if (parts.length === 2) {
             const text = parts[0];
-            formattedMessages += `${lastTime} - ${lastSender}: ${text}\n\n`;
+            formattedMessages += `${lastSender}: ${text}\n\n`;
             }
         }
     });
@@ -235,22 +235,41 @@ async function summarizeMessages(messages) {
       await initializeAISession();
   }
   
-  const prompt = `
-  Summarize the following chat messages in one coherent short paragraph. Your summary should help me understand the conversation without having to read all the messages. Please include:
-  
-  - The main topics discussed
-  - The opinions expressed
-  - The key points made
-  - Ensure the summary respects the order of the messages and preserves the original language. So if the messages are in English, the summary should also be in English. If the messages are in another language, the summary should be in that language.
-  
-  The format of the messages is:
-  - {time} - {sender}: {message}
-  
-  Unread messages:
-  ${messages}
+  // Detect language
+  const userLang = navigator.language || navigator.userLanguage;
+  const isSpanish = userLang.startsWith('es');
+
+  const prompt = isSpanish ? `
+    Resume los siguientes mensajes de chat en un párrafo corto y coherente. Tu resumen debe ayudarme a entender la conversación sin tener que leer todos los mensajes. Por favor, incluye:
+    - El/los tema/s principal/es discutido/s
+    - Las opiniones principales expresadas (si las hay)
+    - Cualquier decisión tomada (si la hay)
+
+    El formato de los mensajes es:
+    {remitente}: {mensaje}
+
+    Asegúrate de que el resumen respete el orden de los mensajes y preserve el idioma original. Si los mensajes están en inglés, el resumen debe estar en inglés. Si los mensajes están en otro idioma (por ejemplo, español), el resumen debe estar en ese idioma. No asumas ni inventes ninguna información que no esté presente en los mensajes. Si encuentras alguna ambigüedad o incertidumbre, menciónalo en el resumen.
+    Tu respuesta debe ser 1 solo parrafo que sea un resumen explicativo sobre de lo que se hablo y no una traducción literal de los mensajes, no incluyas mensajes textuales,  horarios u otro contenido que no aporte al resumen.
+    No uses titulos, ni subtitulos, ni markdown en tu respuesta.
+
+    Ahora resumi en un parrafo breve sobre que se hablo en los siguientes mensajes no leídos:
+    ${messages}
+  ` : `
+    Summarize the following chat messages in one coherent short paragraph. Your summary should help me understand the conversation without having to read all the messages. Please include:
+    - The main topic/s discussed
+    - The main opinions expressed(if any)
+    - Any decisions made(if any)
+    
+    The format of the messages is:
+    - {time} - {sender}: {message}
+    
+    Ensure the summary respects the order of the messages and preserves the original language. If the messages are in English, the summary should be in English. If the messages are in another language (e.g., Spanish), the summary should be in that language. Do not assume or invent any information that is not present in the messages. If you encounter any ambiguity or uncertainty, mention it in the summary.
+
+    Now summarize the following unreaden messages:
+    ${messages}
   `;
 
-  injectDiv('Analyzing...'); // Inject an empty div first to show loading state
+  injectDiv(isSpanish ? 'Analizando...' : 'Analyzing...',isSpanish); // Inject an empty div first to show loading state
   
   const stream = aiSession.promptStreaming(prompt);
   const summaryParts = [];
@@ -264,14 +283,12 @@ async function summarizeMessages(messages) {
       }
   }
 
-  const aiSummary = summaryParts.join('');
-  console.log('AI Summary:', aiSummary);
-
-  return aiSummary;
+  return summaryParts.join('');
 }
 
 // Function to inject the div with the summary
-function injectDiv(messages) {
+function injectDiv(messages, isSpanish) {
+
     const mainDiv = document.getElementById('main');
     if (mainDiv) {
         const targetDiv = mainDiv.querySelector('._amm9');
@@ -313,7 +330,7 @@ function injectDiv(messages) {
 
                 // Create the title
                 const title = document.createElement('h2');
-                title.textContent = 'Summary';
+                title.textContent = isSpanish ? 'Resumen' : 'Summary';
                 title.style.marginTop = '0';
                 title.style.marginBottom = '10px';
                 title.style.fontSize = '18px';

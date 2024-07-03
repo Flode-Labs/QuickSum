@@ -16,4 +16,3 @@
 * Improve the README 
 * Improve prompt
 * Check correctly if it's a group when clicked
-* Add multiple languages?

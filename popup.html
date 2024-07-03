@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuickSum Extension Installation Guide</title>
+    <title id="extension_name"></title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -39,10 +39,8 @@
         }
         ol {
             line-height: 1.6;
-            padding-right: 20px; /* Adjusted padding for better spacing */
-              
+            padding-right: 20px;
         }
-   
         img {
             display: block;
             margin: 20px auto;
@@ -54,7 +52,7 @@
             text-decoration: none;
         }
         a:hover {
-            text-decoration: underpne;
+            text-decoration: underline;
         }
         code {
             background: rgba(255, 255, 255, 0.1);
@@ -66,14 +64,15 @@
 <body>
     <div class="container">
         <img src="flode.png" alt="Guide Image">
-        <h1>How to Set Up Built-in Gemini Nano in Chrome with <span class="quicksum">Quicksum</span></h1>
+        <h1 id="guide_title"></h1>
         <ol>
-            <li><strong>Install Chrome Canary</strong>: Ensure you have version 127. <a href="https://google.com/chrome/canary/" target="_blank">Download Chrome Canary</a>.</li>
-            <li><strong>Enable Prompt API</strong>: Open <code>chrome://flags/#prompt-api-for-gemini-nano</code>, set it to "Enabled".</li>
-            <li><strong>Enable Optimization Guide</strong>: Open <code>chrome://flags/#optimization-guide-on-device-model</code>, set it to "Enabled BypassPerfRequirement". Restart the browser.</li>
-            <li><strong>Download Model</strong>: Go to <code>chrome://components/</code>, find "Optimization Guide On Device Model", ensure it’s fully downloaded. If the version is "0.0.0.0", cpck "Check for update".</li>
-            <li><strong>Troubleshoot</strong>: If the "Optimization Guide On Device Model" is not displayed, disable the settings in steps 2 and 3, ensure you have at least 22GB free on your disk, restart your browser, and re-enable it.</li>
+            <li><strong id="install_chrome_canary"></strong>: <span id="install_chrome_canary_detail"></span><a id="download_chrome_canary" href="https://google.com/chrome/canary/" target="_blank"></a>.</li>
+            <li><strong id="enable_prompt_api"></strong>: <span id="enable_prompt_api_detail"></span><code>chrome://flags/#prompt-api-for-gemini-nano</code>, <span id="enable_prompt_api_flag"></span></li>
+            <li><strong id="enable_optimization_guide"></strong>: <span id="enable_optimization_guide_detail"></span><code>chrome://flags/#optimization-guide-on-device-model</code>, <span id="enable_optimization_guide_flag"></span></li>
+            <li><strong id="download_model"></strong>: <span id="download_model_detail"></span><code>chrome://components/</code>, <span id="download_model_instruction"></span><span id="check_for_update"></span>.</li>
+            <li><strong id="troubleshoot"></strong>: <span id="troubleshoot_detail"></span></li>
         </ol>
     </div>
+    <script src="popup.js"></script>
 </body>
 </html>

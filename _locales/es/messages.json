@@ -1,0 +1,56 @@
+{
+  "extension_name": {
+    "message": "QuickSum"
+  },
+  "extension_description": {
+    "message": "Resumir mensajes no leídos de WhatsApp."
+  },
+  "guide_title": {
+    "message": "Cómo configurar el Gemini Nano integrado en Chrome con QuickSum"
+  },
+  "install_chrome_canary": {
+    "message": "Instalar Chrome Canary"
+  },
+  "install_chrome_canary_detail": {
+    "message": "Asegúrate de tener la versión 127."
+  },
+  "enable_prompt_api": {
+    "message": "Habilitar la API de Prompt"
+  },
+  "enable_prompt_api_detail": {
+    "message": "Abre "
+  },
+  "enable_prompt_api_flag": {
+    "message": "configúralo en \"Enabled\"."
+  },
+  "enable_optimization_guide": {
+    "message": "Habilitar la Guía de Optimización"
+  },
+  "enable_optimization_guide_detail": {
+    "message": "Abre "
+  },
+  "enable_optimization_guide_flag": {
+    "message": "configúralo en \"Enabled BypassPerfRequirement\". Reinicia el navegador."
+  },
+  "download_model": {
+    "message": "Descargar Modelo"
+  },
+  "download_model_detail": {
+    "message": "Ve a "
+  },
+  "download_model_instruction": {
+    "message": "encuentra \"Optimization Guide On Device Model\", asegúrate de que esté completamente descargado. Si la versión es \"0.0.0.0\", haz clic en "
+  },
+  "troubleshoot": {
+    "message": "Solución de Problemas"
+  },
+  "troubleshoot_detail": {
+    "message": "Si no se muestra \"Guía de Optimización en el Modelo de Dispositivo\", desactiva la configuración en los pasos 2 y 3, asegúrate de tener al menos 22 GB libres en tu disco, reinicia tu navegador y vuelve a habilitarlo."
+  },
+  "download_chrome_canary": {
+    "message": "Descargar Chrome Canary"
+  },
+  "check_for_update": {
+    "message": "Buscar actualización"
+  }
+}
