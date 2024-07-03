@@ -31,7 +31,7 @@ function formatMessages(messages) {
             const quoteContent = parts[2];
             const text = parts[3];
             if (/^\d{1,2}:\d{2}$/.test(quoteContent)) {
-                formattedMessages += `${time} - ${sender}: (responding to the audio of ${quoteContent} of ${quoteSender}) ${text}\n\n`;
+                formattedMessages += `${time} - ${sender}: (responding to the voice note of ${quoteSender}) ${text}\n\n`;
             } else {
                 formattedMessages += `${time} - ${sender}: (responding to the message of ${quoteSender}: "${quoteContent}") ${text}\n\n`;
             }
@@ -118,21 +118,33 @@ function addChatClickListener() {
                 const newChat = event.currentTarget;
                 console.log('Chat clicked:', newChat);
                 let newChatInfo = newChat.querySelectorAll('._ahlk span');
-                //keep only the span that doesnt contains an svg inside
-                console.log('Chat info:', newChatInfo);
-
+                
+                // Keep only the span that doesn't contain an SVG inside
                 newChatInfo = Array.from(newChatInfo).filter(span => span.querySelector('svg') === null)[0];
                 console.log('Chat info:', newChatInfo);
+
                 const isUnread = newChatInfo != null;
                 // const isGroupChat = newChat.querySelector('.x1n2onr6 .x14yjl9h img') !== null;
-                const isGroupChat = true; //TODO: fix this
-                console.log('Chat clicked');
+                const isGroupChat = true; 
                 console.log('isUnread:', isUnread);
                 console.log('isGroupChat:', isGroupChat);
 
-                if (isUnread && isGroupChat && newChatInfo.innerText.match(/\d+/) && newChatInfo.innerText > "20" ) {
-                    console.log('Chat list changed, detected new chat');
-                    handleNewChat();
+                if (isUnread && isGroupChat) {
+                    const unreadText = newChatInfo.innerText.trim();
+                    let unreadCount = 0;
+
+                    if (unreadText === '@') {
+                        unreadCount = 21; // More than 20 unread messages
+                    } else {
+                        unreadCount = parseInt(unreadText, 10);
+                    }
+
+                    console.log('Unread count:', unreadCount);
+
+                    if (unreadCount > 20) {
+                        console.log('Chat list changed, detected new chat');
+                        handleNewChat();
+                    }
                 }
             });
         }

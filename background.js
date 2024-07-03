@@ -30,8 +30,8 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
               Once these steps are completed, you can use the on-device model in Chrome Dev.`
           };
 
-          // Set the error message in local storage
-          chrome.storage.local.set({ errorMessage: errorMessage });
+        //   // Set the error message in local storage
+        //   chrome.storage.local.set({ errorMessage: errorMessage });
 
           // Set the popup to show the instructions
           chrome.action.setPopup({ popup: 'popup.html' });

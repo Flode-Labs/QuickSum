@@ -1,46 +1,79 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Gemini Nano Setup</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      max-width: 400px;
-      color: #333;
-    }
-    h1 {
-      font-size: 18px;
-      margin-bottom: 10px;
-    }
-    p {
-      font-size: 14px;
-      line-height: 1.5;
-      margin-bottom: 10px;
-    }
-    a {
-      color: #1a73e8;
-      text-decoration: none;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickSum Extension Installation Guide</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #fff;
+            background: linear-gradient(135deg, #000, #434343);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 350px;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            padding-top: 20px;
+            padding-bottom: 20px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .quicksum {
+            color: #4e9169;
+            text-decoration: underline;
+        }
+        h1 {
+            font-size: 14px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        ol {
+            line-height: 1.6;
+            padding-right: 20px; /* Adjusted padding for better spacing */
+              
+        }
+   
+        img {
+            display: block;
+            margin: 20px auto;
+            max-width: 100%;
+            border-radius: 10px;
+        }
+        a {
+            color: #1e90ff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underpne;
+        }
+        code {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+    </style>
 </head>
 <body>
-  <h1 id="error-title">Error</h1>
-  <p id="error-steps">Loading instructions...</p>
-
-  <script>
-    // Load the error message from local storage
-    chrome.storage.local.get('errorMessage', (data) => {
-      if (data.errorMessage) {
-        document.getElementById('error-title').textContent = data.errorMessage.title;
-        document.getElementById('error-steps').innerHTML = data.errorMessage.steps.replace(/\n/g, '<br>');
-      } else {
-        document.getElementById('error-steps').textContent = 'No error message found.';
-      }
-    });
-  </script>
+    <div class="container">
+        <img src="flode.png" alt="Guide Image">
+        <h1>How to Set Up Built-in Gemini Nano in Chrome with <span class="quicksum">Quicksum</span></h1>
+        <ol>
+            <li><strong>Install Chrome Canary</strong>: Ensure you have version 127. <a href="https://google.com/chrome/canary/" target="_blank">Download Chrome Canary</a>.</li>
+            <li><strong>Enable Prompt API</strong>: Open <code>chrome://flags/#prompt-api-for-gemini-nano</code>, set it to "Enabled".</li>
+            <li><strong>Enable Optimization Guide</strong>: Open <code>chrome://flags/#optimization-guide-on-device-model</code>, set it to "Enabled BypassPerfRequirement". Restart the browser.</li>
+            <li><strong>Download Model</strong>: Go to <code>chrome://components/</code>, find "Optimization Guide On Device Model", ensure it’s fully downloaded. If the version is "0.0.0.0", cpck "Check for update".</li>
+            <li><strong>Troubleshoot</strong>: If the "Optimization Guide On Device Model" is not displayed, disable the settings in steps 2 and 3, ensure you have at least 22GB free on your disk, restart your browser, and re-enable it.</li>
+        </ol>
+    </div>
 </body>
 </html>

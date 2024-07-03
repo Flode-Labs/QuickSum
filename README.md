@@ -16,6 +16,4 @@
 * Improve the README 
 * Improve prompt
 * Check correctly if it's a group when clicked
-* Parse the inner html of the unreaden messages to integers on the addChatClickListener function
-* Make a UI for the popup
 * Add multiple languages?
