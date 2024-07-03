@@ -40,33 +40,3 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
       }
   }
 });
-
-// chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-//     console.log('Message received in background', request);
-//     if (request.action === "newChatMessages") {
-//       console.log('New chat messages received:', request.messages);
-//       const messages = request.messages;
-//         console.log('Messages:', messages);
-//         chrome.storage.local.set({sumary: messages });
-//         chrome.action.openPopup();
-//     //   fetch('https://your.api.endpoint/summarize', {
-//     //     method: 'POST',
-//     //     headers: {
-//     //       'Content-Type': 'application/json'
-//     //     },
-//     //     body: JSON.stringify({ text: messages.join(" ") })
-//     //   })
-//     //   .then(response => response.json())
-//     //   .then(summary => {
-//     //     console.log('Summary received from API:', summary);
-//     //     chrome.storage.local.set({ summary: summary.result });
-//     //     chrome.action.openPopup();
-//     //   })
-//     //   .catch(error => {
-//     //     console.error('Error fetching summary:', error);
-//     //   });
-  
-//       sendResponse({ success: true });
-//     }
-//   });
-  

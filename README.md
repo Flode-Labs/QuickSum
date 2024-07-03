@@ -13,6 +13,6 @@
 6. **Verify Setup**: Open a webpage, press F12, and check `window.ai` in the console.
 
 # TODO
-* Improve the README 
+* Improve this README 
 * Improve prompt
-* Check correctly if it's a group when clicked
+* Check correctly if it's a group when clicked 
