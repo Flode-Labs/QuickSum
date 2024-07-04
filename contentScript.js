@@ -265,7 +265,7 @@ async function summarizeMessages(messages) {
     
     Ensure the summary respects the order of the messages and preserves the original language. If the messages are in English, the summary should be in English. If the messages are in another language (e.g., Spanish), the summary should be in that language. Do not assume or invent any information that is not present in the messages. If you encounter any ambiguity or uncertainty, mention it in the summary.
 
-    Now summarize the following unreaden messages:
+    Unreaden messages:
     ${messages}
   `;
 
